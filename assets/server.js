@@ -1,33 +1,46 @@
 // Dependencies
-const people = require ("./people");
+const people = require ("./people");//person object containing from data
 const express = require("express");
+const path = require("path");
 const app = express(); //create app's server
+
+// app.use(express.urlencoded);
 
 const PORT = 8080;
 
-//Data
+//Data: holders for persons objects
 const reservations = [];
 const waitingList = [];
 
 
 //Routes
+    //routes -- html redirects
 app.get("/", function(req, res) {
     //Landing Page Served
-    res.sendFile("C:/Users/Michael's PC/Desktop/GW/GWU_Bootcamp/inClassWork/Express/15-HotRestaurant/Reservations.js/resources/index.html");
+    res.sendFile(path.join(__dirname, "index.html"));
 });
 app.get("/reserve", function (req, res) {
     // Reservation Form Served
-    res.sendFile("C:/Users/Michael's PC/Desktop/GW/GWU_Bootcamp/inClassWork/Express/15-HotRestaurant/Reservations.js/resources/reserve.html");
+    res.sendFile(path.join(__dirname, "reserve.html"));
 });
 app.get("/tables", function (req, res) {
     // Current Waiting/Reservation Display Served
-    res.sendFile("C:/Users/Michael's PC/Desktop/GW/GWU_Bootcamp/inClassWork/Express/15-HotRestaurant/Reservations.js/resources/tables.html");
+    res.sendFile(path.join(__dirname,"tables.html"));
 });
+    //routes -- api data
+app.get("/api/waitlist", function(req, res){
+    // Array containing current waitlist objects
+    return res.json(waitingList);
+})
+app.get("/api/tables", function(req, res){
+    // Array containing current table objects
+    return res.json(reservations);
+})
 
 //Form Submission
-app.post("/resources/reserve", function(req, res){
+app.post("/reserve", function(req, res){
     let data = req.body;
-    console.log(data);
+    console.log(req.body);
 });
 
 //Listener
